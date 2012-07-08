@@ -3,6 +3,18 @@ Friends::Application.routes.draw do
   devise_for :users
 
   root :to => "home#index"
+  match 'feed' => "home#feed", :as => :feed 
+  match 'profile' => "home#profile", :as => :profile
+  match 'dialogues' => "home#dialogues", :as => :dialogues
+  match 'photos' => "home#photos", :as => :photos
+  match 'friends' => "home#friends", :as => :friends
+  resources :users, :only => [:show] do
+    get 'search', :on => :collection 
+    post 'add', :on => :member
+    delete 'delete', :on => :member
+  end
+
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

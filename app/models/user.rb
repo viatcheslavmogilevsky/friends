@@ -31,6 +31,10 @@ class User < ActiveRecord::Base
   	self.friends.delete(some_user)
   	some_user.friends.delete(self)
   end
+
+  def full_name
+    "#{self.name} #{self.nickname}  #{self.first_name}" 
+  end
     
 
 end
