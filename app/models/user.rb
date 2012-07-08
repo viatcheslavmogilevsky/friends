@@ -43,5 +43,9 @@ class User < ActiveRecord::Base
     var.order("updated_at DESC")
   end
     
+  def full_name
+    "#{self.name} #{self.nickname}  #{self.first_name}" 
+  end
+    
 
 end

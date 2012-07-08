@@ -1,0 +1,9 @@
+<h1> Your news: </h1>
+<% @items.each do |item| %>
+	<div>
+		<% link_to user_path(item.user) do %> 
+			<h2> <%= item.user.full_name %> </h2>
+		<% end %>
+		<p> <%= item.content %> </P>
+	</div>
+<% end %>
