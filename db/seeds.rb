@@ -25,4 +25,23 @@ user2 = User.create({:name => 'Helene',
 	:password_confirmation => '123456',
 	:email => 'helene@smith.com'})	
 
-#user1.target_users << user2
+user1.target_users << user2
+user2.friendship_notifications(true).first.accept
+
+p11 = user1.posts.create({:content => "josh text1 for self"})
+user1.wall_items << p11
+
+p21 = user2.posts.create({:content => "helene text1 for self"})
+user2.wall_items << p21
+
+p12 = user1.posts.create({:content => "josh text2 for self"})
+user1.wall_items << p12
+
+p22 = user2.posts.create({:content => "helene text2 for self"})
+user2.wall_items << p22
+
+p13 = user1.posts.create({:content => "josh text4 for self"})
+user1.wall_items << p13
+
+p14 = user1.posts.create({:content => "josh text4 for self"})
+user1.wall_items << p14

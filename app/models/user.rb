@@ -22,14 +22,25 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :friends, :class_name => "User",
     :foreign_key => "user_id",
     :association_foreign_key => "other_user_id",
-    :join_table => :friendships  
+    :join_table => :friendships
 
   has_many :target_users, :through => :user_friendships,
   	:source => :target_user
 
+  has_many :posts, :order => "updated_at DESC"
+
+  has_many :wall_items, :class_name => "Post", :foreign_key => "target_user_id",    
+           :order => "updated_at DESC"    	
+
   def delete_friend(some_user)
   	self.friends.delete(some_user)
   	some_user.friends.delete(self)
+  end
+
+  def feed_items
+    var = Post.joins(:user).where(:user_id => (self.subscription_ids<<self.id))
+    var = var.where("posts.user_id = posts.target_user_id OR posts.target_user_id IS ?",nil)
+    var.order("updated_at DESC")
   end
     
 

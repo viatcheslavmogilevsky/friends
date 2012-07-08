@@ -11,11 +11,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120707145237) do
+ActiveRecord::Schema.define(:version => 20120708155541) do
 
   create_table "friendships", :id => false, :force => true do |t|
     t.integer "user_id"
     t.integer "other_user_id"
+  end
+
+  add_index "friendships", ["user_id", "other_user_id"], :name => "index_friendships_on_user_id_and_other_user_id", :unique => true
+
+  create_table "posts", :force => true do |t|
+    t.integer  "user_id"
+    t.text     "content"
+    t.integer  "target_user_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   create_table "user_friendships", :force => true do |t|
