@@ -38,7 +38,7 @@ class User < ActiveRecord::Base
   end
 
   def feed_items
-    var = Post.joins(:user).where(:user_id => (self.subscription_ids<<self.id))
+    var = Post.joins(:user).where(:user_id => (self.friend_ids<<self.id))
     var = var.where("posts.user_id = posts.target_user_id OR posts.target_user_id IS ?",nil)
     var.order("updated_at DESC")
   end
