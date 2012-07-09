@@ -3,11 +3,11 @@
   <%= text_field_tag(:search) %>
   <%= submit_tag("Search") %>
 <% end %>
-<h1> Your friends: </h1>
-<% @friends.each do |friend| %>
+<h1> All people </h1>
+<% @users.each do |user| %>
 	<div>
-		<%= link_to user_path(friend) do %> 
-			<h2> <%= friend.fname %> </h2>
+		<%= link_to user_path(user) do %> 
+			<h2> <%= user.fname %> </h2>
 		<% end %>
 	</div>
 <% end %>

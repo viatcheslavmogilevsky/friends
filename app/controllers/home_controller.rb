@@ -10,7 +10,7 @@ class HomeController < ApplicationController
 	end
 
 	def feed
-		@title = current_user.name + 'feed'
+		@title = current_user.full_name
 		@items = current_user.feed_items
 	end
 

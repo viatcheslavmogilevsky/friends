@@ -9,7 +9,7 @@ class UserFriendship < ActiveRecord::Base
   end
   protected
   def check_friends
-  	!self.user.friends(true).exists?(self.target_user.id) && 
-  		!UserFriendship.exists?({:target_user_id => self.user.id})
+  	!self.user.friend?(self.target_user) && 
+  	      !self.target_user.target_user?(self.user)
   end
 end

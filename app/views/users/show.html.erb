@@ -1,4 +1,11 @@
-<h1> Your news: </h1>
+<h1> <%= @title %> </h1>
+<p>
+	<%= @user.description %>
+</p>
+<div>
+	<%= raw(get_links(@user)) %>
+</div>
+
 <% @items.each do |item| %>
 	<div>
 		<%= link_to user_path(item.user) do %> 

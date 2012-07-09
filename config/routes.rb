@@ -1,5 +1,9 @@
 Friends::Application.routes.draw do
 
+  get "user_friendships/accept"
+
+  get "user_friendships/cancel"
+
   devise_for :users
 
   root :to => "home#index"
@@ -8,10 +12,17 @@ Friends::Application.routes.draw do
   match 'dialogues' => "home#dialogues", :as => :dialogues
   match 'photos' => "home#photos", :as => :photos
   match 'friends' => "home#friends", :as => :friends
-  resources :users, :only => [:show] do
+  resources :users, :only => [:show,:index] do
     get 'search', :on => :collection 
-    post 'add', :on => :member
     delete 'delete', :on => :member
+    post 'create_invite', :on => :member
+  end
+
+  resources :user_friendships, :only => [] do
+    member do
+      put 'accept'
+      delete 'cancel'
+    end  
   end
 
 

@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
     :join_table => :friendships
 
   has_many :target_users, :through => :user_friendships,
-  	:source => :target_user
+  	:source => :target_user  
 
   has_many :posts, :order => "updated_at DESC"
 
@@ -44,7 +44,28 @@ class User < ActiveRecord::Base
   end
     
   def full_name
-    "#{self.name} #{self.nickname}  #{self.first_name}" 
+    "#{self.name} #{self.nickname} #{self.first_name}" 
+  end
+
+  def fname
+    "#{self.name} #{self.first_name}"
+  end
+
+  def friend?(some_user)
+    self.friends(true).exists?(some_user)
+  end
+
+  def target_user?(some_user)
+    self.user_friendships(true).find_by_target_user_id(some_user.id)
+  end
+
+  def candidate?(some_user)
+    some_user.user_friendships(true).find_by_target_user_id(self.id)
+  end
+
+  def self.search(search_string)
+    User.find(:all,:conditions => ["(name LIKE ?) OR (first_name LIKE ?) OR (nickname LIKE ?) OR (description LIKE ?)",
+      search_string,search_string,search_string,search_string])
   end
     
 
