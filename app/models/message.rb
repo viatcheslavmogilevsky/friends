@@ -6,7 +6,7 @@ class Message < ActiveRecord::Base
 
   scope :skip_marked, ->(ident) {where("mark <> ? OR mark IS ?",ident,nil)}
 
-  has_one :notification, :as => :notificable
+  has_one :notification, :as => :notificable, :dependent => :destroy
 
   after_create :make_notification
 

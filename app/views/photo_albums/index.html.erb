@@ -1,0 +1,19 @@
+<% if @user == current_user %>
+	<%= link_to "New album", new_user_photo_album_path(@user) %>
+<% end %>
+<% unless @photo_albums.blank? %>
+	<ul class="thumbnails">
+	<% @photo_albums.each do |photo_album| %>
+		<li class="span3">
+		<div class="thumbnail">
+			<%= link_to user_photo_album_path(@user,photo_album) do %>
+			<% if photo_album.photos.any? %>
+				<%= image_tag(photo_album.photos.last.content.url(:thumb)) %><br/>
+			<% end %>
+			<%= photo_album.name %>
+			<% end %>
+		</div>	
+		</li>
+	<% end %>
+	</ul>
+<% end %>

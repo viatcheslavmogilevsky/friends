@@ -1,0 +1,18 @@
+<% if @photo_album.user == current_user %>
+	<%= link_to "Add photo", new_photo_album_photo_path(@photo_album) %> |
+	<%= link_to "Edit album", edit_user_photo_album_path(@photo_album.user,@photo_album) %> |
+	<%= link_to "Delete album", [@photo_album.user,@photo_album], :method => :delete %>
+<% end %>
+<% unless @photos.blank? %>
+<ul class="thumbnails">
+	<% @photos.each do |photo| %>
+	<li class="span3">
+	<div class="thumbnail">
+	<%= link_to photo_path(photo) do %>
+		<%= image_tag photo.content.url(:thumb) %>
+	<% end %>
+	</div>
+	</li>
+	<% end %>
+</ul>
+<% end %>

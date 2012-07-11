@@ -1,0 +1,11 @@
+<%= render @photo %>
+<%= render :partial => 'shared/comment_form' %>
+<% @comments.each do |comment| %>
+			<%= render comment %>
+			<% if current_user == comment.user %>
+				<%= link_to "Edit", edit_photo_comment_path(@photo,comment) %> | 
+				<%= link_to "Delete", [@photo,comment], :method => :delete %>
+			<% elsif current_user == @photo.user %>
+				<%= link_to "Delete", [@photo,comment], :method => :delete %>	
+			<% end %>
+<% end %> 

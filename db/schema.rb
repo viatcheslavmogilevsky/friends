@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120711095228) do
+ActiveRecord::Schema.define(:version => 20120711110446) do
 
   create_table "comments", :force => true do |t|
     t.integer  "user_id"
@@ -50,6 +50,24 @@ ActiveRecord::Schema.define(:version => 20120711095228) do
     t.integer  "notificable_id"
     t.string   "notificable_type"
     t.datetime "created_at",       :null => false
+  end
+
+  create_table "photo_albums", :force => true do |t|
+    t.integer  "user_id"
+    t.text     "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.string   "name"
+  end
+
+  create_table "photos", :force => true do |t|
+    t.integer  "photo_album_id"
+    t.integer  "user_id"
+    t.text     "description"
+    t.string   "content_file_name"
+    t.string   "content_content_type"
+    t.integer  "content_file_size"
+    t.datetime "content_updated_at"
   end
 
   create_table "posts", :force => true do |t|

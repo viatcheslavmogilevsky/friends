@@ -29,7 +29,7 @@ Friends::Application.routes.draw do
 
   resources :photos, :except => [:new,:create,:index] do
     put :toggle_like, :on => :member
-    resources :comments,  :except => [:new, :index, :show] do
+    resources :comments,  :except => [:new, :index, :show], :in_post => false do
       put :toggle_like, :on => :member
     end
   end

@@ -1,0 +1,9 @@
+<%= form_for [@user,@photo_album] do |f| %>
+	<div><%= f.label "Album name" %><br />
+  	<%= f.text_field :name %>
+	</div>
+	<div><%= f.label "Album description" %><br />
+  	<%= f.text_area :description %>
+	</div>
+   <div><%= f.submit "Commit" %></div>
+<% end %>

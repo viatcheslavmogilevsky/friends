@@ -1,14 +1,3 @@
 <%= render 'shared/post_form' %>
 <h1> Your news: </h1>
-<% @items.each do |item| %>
-	<div>
-		<%= link_to user_path(item.user) do %> 
-			<h2> <%= item.user.fname %> </h2>
-		<% end %>
-		<p> <%= item.content %> </p>
-		<div>
-			<%= link_to("comments: "+ item.comments.size.to_s, post_path(item)) %> |
-			<%= item.likes.size %> likes
-		</div>
-	</div>
-<% end %>
+<%= render :partial => "shared/item", :collection => @items %>

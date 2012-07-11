@@ -1,0 +1,11 @@
+<% unless @photos.blank? %> 
+	<ul class="thumbnails">
+	<% @photos.each do |photo| %>
+		<li class="span3">
+		<%= link_to photo_path(photo) do %>
+			<%= image_tag photo.content.url(:thumb) %>
+		<% end %>
+		</li>
+	<% end %>
+	</ul>
+<% end %>	

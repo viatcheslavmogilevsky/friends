@@ -44,9 +44,9 @@ class CommentsController < ApplicationController
 
   	def check_user
   		@comment = Comment.find(params[:id])
-		if @comment.user != current_user
-			render :text => "access denied", :status => 404	
-		end
+	   	if @comment.user != current_user
+		    render :text => "access denied", :status => 404	
+		  end
   	end
 
   	def redirect_to_parent_path

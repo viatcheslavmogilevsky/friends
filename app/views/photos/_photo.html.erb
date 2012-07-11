@@ -1,0 +1,21 @@
+<div>
+	<div>
+			<%= image_tag photo.content.url %>
+			<p><%= photo.description %></p>
+			<p>by <%= photo.user.fname %></p>	
+	</div>		
+	<div>
+	<%= photo.likes.count %> people liked this | 
+	<% if photo.cant_like?(current_user.id) %>
+		<%= link_to "Like", toggle_like_photo_path(photo), :method => :put %>
+	<% else %>
+		<%= link_to "Dislike", toggle_like_photo_path(photo), :method => :put %>
+	<% end %>	
+	</div>
+	<div>
+		<% if current_user == photo.user %>
+			<%= link_to "Edit", edit_photo_path(photo) %> | 
+			<%= link_to "Delete", photo, :method => :delete %>
+		<% end %>
+	</div>
+</div>

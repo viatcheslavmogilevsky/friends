@@ -5,7 +5,7 @@
 		<td>
 			<p><%= post.user.full_name %></p>
 			<p><%= post.content %></p>
-			<%= image_tag post.photo.url %>
+			<%= image_tag post.photo.url if post.photo.url %>
 		</td>
 	</tr>
 </table>

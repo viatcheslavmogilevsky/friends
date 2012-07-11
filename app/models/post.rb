@@ -6,8 +6,8 @@ class Post < ActiveRecord::Base
   belongs_to :user
   belongs_to :target_user, :class_name => "User"
 
-  has_one :notification, :as => :notificable
-  has_many :likes, :as => :likeable
+  has_one :notification, :as => :notificable, :dependent => :destroy
+  has_many :likes, :as => :likeable, :dependent => :destroy
   validates :content, :presence => true
 
   has_attached_file :photo,

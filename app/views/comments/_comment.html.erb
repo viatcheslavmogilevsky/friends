@@ -8,9 +8,19 @@
 			<div>
 			<%= comment.likes.count %> people liked this | 
 			<% if comment.cant_like?(current_user.id) %>
-			<%= link_to "Like", toggle_like_post_comment_path(@post,comment), :method => :put %>
+			<%= link_to "Like", {:controller => :comments,
+			 :action => :toggle_like,
+			 :id => comment.id,
+			  @parent.class.to_s.downcase.concat("_id").to_sym => @parent.id,
+			  :in_post => @parent.is_a?(Post) },
+			   :method => :put %>
 			<% else %>
-			<%= link_to "Dislike", toggle_like_post_comment_path(@post,comment), :method => :put %>
+			<%= link_to "Dislike", {:controller => :comments,
+			 :action => :toggle_like,
+			  :id => comment.id,
+			  @parent.class.to_s.downcase.concat("_id").to_sym => @parent.id,
+			  :in_post => @parent.is_a?(Post) },
+			   :method => :put %>
 			<% end %>	
 			</div>
 		</td>

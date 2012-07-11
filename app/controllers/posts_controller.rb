@@ -40,7 +40,7 @@ class PostsController < ApplicationController
 	def show
 		@parent = @post = Post.find(params[:id])
 		@comments = @post.comments.includes(:user)
-		@comment = current_user.comments.build
+		@comment = current_user.comments.new
 	end
 
 	private

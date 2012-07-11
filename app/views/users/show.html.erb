@@ -8,6 +8,8 @@
 <p>
 	<%= link_to "Send message", new_message_user_path(@user) %>
 </p>
+<p> <%= link_to "Photos", user_photos_path(@user) %> </p>
+<p> <%= link_to "Photo albums", user_photo_albums_path(@user) %> </p>
 
 <%= form_for [@user,@post] do |f| %>
  <div class="field">

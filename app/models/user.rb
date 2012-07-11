@@ -38,6 +38,8 @@ class User < ActiveRecord::Base
   has_many :proper_notifications, :class_name => "Notification"
   has_many :likes
   has_many :comments
+  has_many :photo_albums
+  has_many :photos
 
   def inbox
     self.inbox_messages.skip_marked(self.id)
@@ -99,7 +101,8 @@ class User < ActiveRecord::Base
   end
 
   def self.search(search_string)
-    User.find(:all,:conditions =>["(name LIKE ?) OR (first_name LIKE ?) OR (nickname LIKE ?) OR (description LIKE ?)",
+    User.find(:all,
+      :conditions =>["(name LIKE ?) OR (first_name LIKE ?) OR (nickname LIKE ?) OR (description LIKE ?)",
       "%#{search_string}%","%#{search_string}%","%#{search_string}%","%#{search_string}%"])
   end
 end
