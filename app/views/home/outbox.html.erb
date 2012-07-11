@@ -1,0 +1,12 @@
+<h1> Outbox </h1>
+<% @items.each do |item| %>
+	<div>
+		<%= link_to item.user.fname, feed_path %> | (
+		<%= link_to "Go to dialog", dialog_user_path(item.target_user) %>)
+		<br/>
+		<p> <%= item.content %> </p>
+		<%= link_to "Show separately", message_path(item) %> | 
+		<%= link_to "Delete", mark_to_delete_message_path(item), :method => :put %>
+	</div>
+<% end %>
+<%= link_to "Inbox", inbox_path %>

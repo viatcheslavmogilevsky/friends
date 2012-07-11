@@ -1,5 +1,4 @@
 module UsersHelper
-
 	def get_links(user)
 		if current_user.friend?(user)
 			link_to("Delete from friends", delete_user_path(user), :method => :delete)

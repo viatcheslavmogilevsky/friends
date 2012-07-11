@@ -1,0 +1,56 @@
+<% unless @items.blank? %>
+	<div>
+		<% @items.each do |item| %>
+			<p>
+				<% case item.notificable_type %>
+					<% when 'Comment' %>
+						<%= link_to item.user.fname, user_path(item.user) %>: <br/>
+						<%= item.notificable.content %> <br/>
+						in reply to your <%= item.notificable.commentable_type %>: <br/>
+						<div>
+							<%= item.notificable.commentable.content %>
+						</div>
+			<%= item.notificable.likes.count %> people liked this | 
+			<% if item.notificable.cant_like?(current_user.id) %>
+			<%= link_to "Like", toggle_like_post_comment_path(item.notificable.commentable,item.notificable), :method => :put %>
+			<% else %>
+			<%= link_to "Dislike", toggle_like_post_comment_path(item.notificable.commentable,item.notificable), :method => :put %>
+			<% end %>
+					<% when 'Like' %>
+						<%= link_to item.user.fname, user_path(item.user) %>: <br/>	
+						like your <%= item.notificable.likeable_type %>: <br/>
+						<div>
+							<%= item.notificable.likeable.content %>
+						</div>
+					<% when 'Post' %>
+						<%= link_to item.user.fname, user_path(item.user) %> added post to your page:<br/>	
+						<%= item.notificable.content %>
+						<%= item.notificable.likes.count %> people liked this | 
+			<% if item.notificable.cant_like?(current_user.id) %>
+			<%= link_to "Like", toggle_like_post_path(item.notificable), :method => :put %>
+			<% else %>
+			<%= link_to "Dislike", toggle_like_post_path(item.notificable), :method => :put %>
+			<% end %> 
+					<% when 'Message' %>
+						<%= link_to item.user.fname, user_path(item.user) %>: <br/>	
+						sent you a message: <br/>	
+						<div>
+							<%= item.notificable.content %>
+						</div>
+						<%= link_to "Go to dialog", dialog_user_path(item.user) %>
+						<div>
+		<%= form_tag({:controller => :users, :action => :send_message, :id => item.user.id}, :method=>:post) do %>
+								<div>
+									<%= label_tag "Write" %>
+									<%= text_area_tag :content %>	
+								</div>
+								<div class="actions">
+      								<%= submit_tag "Send" %>
+    							</div>
+							<% end %>	
+						</div>
+				<% end %>
+			</p>
+		<% end %>
+	</div>
+<% end %>

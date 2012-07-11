@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120708155541) do
+ActiveRecord::Schema.define(:version => 20120711095228) do
+
+  create_table "comments", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "target_user_id"
+    t.text     "content"
+    t.integer  "commentable_id"
+    t.string   "commentable_type"
+    t.datetime "created_at",       :null => false
+  end
 
   create_table "friendships", :id => false, :force => true do |t|
     t.integer "user_id"
@@ -20,12 +29,39 @@ ActiveRecord::Schema.define(:version => 20120708155541) do
 
   add_index "friendships", ["user_id", "other_user_id"], :name => "index_friendships_on_user_id_and_other_user_id", :unique => true
 
+  create_table "likes", :force => true do |t|
+    t.integer "user_id"
+    t.integer "likeable_id"
+    t.string  "likeable_type"
+  end
+
+  create_table "messages", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "target_user_id"
+    t.text     "content"
+    t.integer  "mark"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  create_table "notifications", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "target_user_id"
+    t.integer  "notificable_id"
+    t.string   "notificable_type"
+    t.datetime "created_at",       :null => false
+  end
+
   create_table "posts", :force => true do |t|
     t.integer  "user_id"
     t.text     "content"
     t.integer  "target_user_id"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
   end
 
   create_table "user_friendships", :force => true do |t|
@@ -52,6 +88,10 @@ ActiveRecord::Schema.define(:version => 20120708155541) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

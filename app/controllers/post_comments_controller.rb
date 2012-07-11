@@ -1,0 +1,3 @@
+class PostCommentsController < ApplicationController
+	
+end

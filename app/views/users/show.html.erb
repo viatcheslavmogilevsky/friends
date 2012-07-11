@@ -5,12 +5,17 @@
 <div>
 	<%= raw(get_links(@user)) %>
 </div>
+<p>
+	<%= link_to "Send message", new_message_user_path(@user) %>
+</p>
 
-<% @items.each do |item| %>
-	<div>
-		<%= link_to user_path(item.user) do %> 
-			<h2> <%= item.user.fname %> </h2>
-		<% end %>
-		<p> <%= item.content %> </p>
-	</div>
+<%= form_for [@user,@post] do |f| %>
+ <div class="field">
+ 	<%= f.text_area :content %>
+ </div>
+ <div class="actions">
+ 	<%= f.submit "Add post" %>
+ </div>
 <% end %>
+
+<%= render :partial => "shared/item", :collection => @items %>

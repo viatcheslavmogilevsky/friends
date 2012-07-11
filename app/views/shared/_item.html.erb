@@ -1,0 +1,14 @@
+<table>
+	<tr>
+		<td><%= image_tag item.user.avatar.url(:thumb) %></td>
+		<td>
+			<p><%= link_to item.user.fname, user_path(item.user) %></p>
+			<p><%= item.content %></p>
+			<%= image_tag item.photo.url %>
+			<div>
+				<%= link_to("comments: "+ item.comments.size.to_s, post_path(item)) %> | 
+				<%= item.likes.size %> likes
+			</div>
+		</td>
+	</tr>
+</table>

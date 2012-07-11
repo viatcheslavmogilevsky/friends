@@ -33,5 +33,24 @@ class UsersController < ApplicationController
 		redirect_to(profile_path) if @user == current_user
 		@title = @user.full_name
 		@items = @user.wall_items
+		@post = current_user.posts.build
+	end
+
+	def dialog
+		@user = User.find(params[:id])
+		@items = current_user.dialog_at(@user)
+		@title = current_user.name + ' and ' + @user.name
+		current_user.destroy_certain_notifications("Message",@user.id)
+	end
+
+	def send_message
+		@user = User.find(params[:id])
+		current_user.send_message(@user,params[:content]) 
+		redirect_to dialog_user_path(@user)
+	end
+
+	def new_message
+		@user = User.find(params[:id])
+		@title = "New message to #{@user.name}"
 	end
 end

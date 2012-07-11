@@ -3,11 +3,17 @@
   <%= text_field_tag(:search) %>
   <%= submit_tag("Search") %>
 <% end %>
-<h1> Your friends: </h1>
-<% @friends.each do |friend| %>
+<% unless @invites.blank? %>
 	<div>
-		<%= link_to user_path(friend) do %> 
-			<h2> <%= friend.fname %> </h2>
+		<% @invites.each do |invite| %>
+			<p>
+				<%= link_to invite.user.fname, user_path(invite.user) %>
+				want to add you to friends
+				(<%= link_to("Accept invite", accept_user_friendship_path(invite), :method => :put) %> | 
+				<%= link_to("Cancel invite", cancel_user_friendship_path(invite), :method => :delete) %>)
+			</p>
 		<% end %>
 	</div>
 <% end %>
+<h1> Your friends: </h1>
+<%= render :partial => "shared/friend", :collection => @friends %>

@@ -1,9 +1,12 @@
-<h1> Your wall: </h1>
-<% @items.each do |item| %>
-	<div>
-		<%= link_to user_path(item.user) do %> 
-			<h2> <%= item.user.full_name %> </h2>
-		<% end %>
-		<p> <%= item.content %> </P>
-	</div>
-<% end %>
+<table>
+	<tr>
+		<td><%= image_tag current_user.avatar.url(:medium) %></td>
+		<td>
+			<p><%= current_user.full_name %></p>
+			<p><%= current_user.description %></p>
+		</td>
+	</tr>
+</table>
+<h2> Your wall: </h2>
+<%= render 'shared/post_form' %>
+<%= render :partial => "shared/item", :collection => @items %>

@@ -1,0 +1,19 @@
+<div>
+<table>
+	<tr>
+		<td><%= image_tag comment.user.avatar.url(:thumb) %></td>
+		<td>
+			<p><%= comment.user.fname %></p>
+			<p><%= comment.content %></p>
+			<div>
+			<%= comment.likes.count %> people liked this | 
+			<% if comment.cant_like?(current_user.id) %>
+			<%= link_to "Like", toggle_like_post_comment_path(@post,comment), :method => :put %>
+			<% else %>
+			<%= link_to "Dislike", toggle_like_post_comment_path(@post,comment), :method => :put %>
+			<% end %>	
+			</div>
+		</td>
+	</tr>
+</table>
+</div>

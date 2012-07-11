@@ -1,0 +1,10 @@
+<h1> <%= @title %> </h1>
+<%= form_tag({:controller => :users,:action => :send_message, :id => @user.id}, :method => :post) do %>
+	<div>
+		<%= label_tag "Write" %>
+		<%= text_area_tag :content %>	
+	</div>
+	<div class="actions">
+      	<%= submit_tag "Send" %>
+    </div>
+<% end %>	

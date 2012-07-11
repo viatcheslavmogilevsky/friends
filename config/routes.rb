@@ -1,21 +1,37 @@
 Friends::Application.routes.draw do
 
-  get "user_friendships/accept"
-
-  get "user_friendships/cancel"
-
   devise_for :users
 
   root :to => "home#index"
   match 'feed' => "home#feed", :as => :feed 
   match 'profile' => "home#profile", :as => :profile
-  match 'dialogues' => "home#dialogues", :as => :dialogues
-  match 'photos' => "home#photos", :as => :photos
+  match 'inbox' => "home#inbox", :as => :inbox
+  match 'outbox' => "home#outbox", :as => :outbox
   match 'friends' => "home#friends", :as => :friends
+  match 'notifications' => "home#notifications", :as => :notifications
   resources :users, :only => [:show,:index] do
     get 'search', :on => :collection 
-    delete 'delete', :on => :member
-    post 'create_invite', :on => :member
+    member do
+      delete 'delete'
+      post 'create_invite'
+      get 'dialog'
+      post 'send_message'
+      get 'new_message'
+    end
+    resources :photo_albums
+    resources :posts, :only => [:create]
+    resources :photos, :only => [:index]
+  end
+
+  resources :photo_albums, :only => [] do
+    resources :photos, :only => [:new,:create]
+  end
+
+  resources :photos, :except => [:new,:create,:index] do
+    put :toggle_like, :on => :member
+    resources :comments,  :except => [:new, :index, :show] do
+      put :toggle_like, :on => :member
+    end
   end
 
   resources :user_friendships, :only => [] do
@@ -24,6 +40,19 @@ Friends::Application.routes.draw do
       delete 'cancel'
     end  
   end
+
+  resources :messages, :only => [:show] do
+    put 'mark_to_delete', :on => :member
+  end
+
+  resources :posts, :except => [:new, :index] do
+    resources :comments, :except => [:new, :index, :show], :in_post => true do
+      put :toggle_like, :on => :member
+    end
+    put :toggle_like, :on => :member
+  end
+
+
 
 
 
