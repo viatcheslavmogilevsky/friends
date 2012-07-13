@@ -4,8 +4,10 @@
 		<td><%= image_tag post.user.avatar.url(:thumb) %></td>
 		<td>
 			<p><%= post.user.full_name %></p>
+			<div class="well">
 			<p><%= post.content %></p>
 			<%= image_tag post.photo.url if post.photo.url %>
+			</div>
 		</td>
 	</tr>
 </table>

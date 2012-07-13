@@ -1,16 +1,38 @@
-<h1> <%= @title %> </h1>
+<h2> <%= @title %> </h2>
 <p>
-	<%= @user.description %>
+	about me: <%= @user.description %>
 </p>
-<div>
-	<%= raw(get_links(@user)) %>
+<div class="btn-toolbar">
+	<div class="btn-group">
+    	<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+    		Actions
+    		<span class="caret"></span>
+    	</a>
+    	<ul class="dropdown-menu">
+    		<%= raw(get_links(@user)) %>
+    	</ul>
+	</div>
+	<div class="btn-group">
+    	<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+    		Photos
+    		<span class="caret"></span>
+    	</a>
+    	<ul class="dropdown-menu">
+    		<li><%= link_to "All photos", user_photos_path(@user) %></li>
+			<li><%= link_to "Photo albums", user_photo_albums_path(@user) %></li>
+    	</ul>
+	</div>
+	<div class="btn-group">
+    	<button class="btn dropdown-toggle" data-toggle="dropdown">
+    		Talking
+    		<span class="caret"></span>
+    	</button>
+    	<ul class="dropdown-menu">
+    		<li><%= link_to "Send message", new_message_user_path(@user) %></li>
+    		<li><%= link_to "Go to dialog", dialog_user_path(@user) %></li>
+    	</ul>
+    </div>
 </div>
-<p>
-	<%= link_to "Send message", new_message_user_path(@user) %>
-</p>
-<p> <%= link_to "Photos", user_photos_path(@user) %> </p>
-<p> <%= link_to "Photo albums", user_photo_albums_path(@user) %> </p>
-
 <%= form_for [@user,@post] do |f| %>
  <div class="field">
  	<%= f.text_area :content %>
@@ -19,5 +41,12 @@
  	<%= f.submit "Add post" %>
  </div>
 <% end %>
-
-<%= render :partial => "shared/item", :collection => @items %>
+<% unless @items.blank? %>
+	<div class="row-fluid">
+		<div clas="span12">
+			<%= render :partial => "shared/item", :collection => @items %>
+		</div>
+	</div>
+<% else %>
+	<p><%= @user.name %> haven't yet any posts </p>
+<% end %>			

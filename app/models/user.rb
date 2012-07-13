@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
     :bucket => 'mogilevsky',
     :s3_credentials => "config/s3.yml"
 
-  has_many :user_friendships
+  has_many :user_friendships, :dependent => :destroy
   has_many :friendship_notifications, :class_name => "UserFriendship", 
   	:foreign_key => "target_user_id"
   has_and_belongs_to_many :friends, :class_name => "User",
@@ -40,6 +40,7 @@ class User < ActiveRecord::Base
   has_many :comments
   has_many :photo_albums
   has_many :photos
+  paginates_per 10
 
   def inbox
     self.inbox_messages.skip_marked(self.id)

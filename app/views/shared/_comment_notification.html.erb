@@ -1,0 +1,12 @@
+<%= link_to item.user.fname, user_path(item.user) %>: <br/>
+						<%= item.notificable.content %> <br/>
+						in reply to your <%= item.notificable.commentable_type %>: <br/>
+						<div>
+							<%= item.notificable.commentable.content %>
+						</div>
+			<%= item.notificable.likes.count %> people liked this | 
+			<% if item.notificable.cant_like?(current_user.id) %>
+			<%= link_to "Like", toggle_like_post_comment_path(item.notificable.commentable,item.notificable), :method => :put %>
+			<% else %>
+			<%= link_to "Dislike", toggle_like_post_comment_path(item.notificable.commentable,item.notificable), :method => :put %>
+			<% end %>

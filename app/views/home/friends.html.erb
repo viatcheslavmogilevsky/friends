@@ -16,4 +16,5 @@
 	</div>
 <% end %>
 <h1> Your friends: </h1>
+<%= paginate @friends %>
 <%= render :partial => "shared/friend", :collection => @friends %>

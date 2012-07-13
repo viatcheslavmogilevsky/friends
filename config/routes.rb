@@ -28,10 +28,11 @@ Friends::Application.routes.draw do
   end
 
   resources :photos, :except => [:new,:create,:index] do
-    put :toggle_like, :on => :member
-    resources :comments,  :except => [:new, :index, :show], :in_post => false do
-      put :toggle_like, :on => :member
-    end
+    put :toggle_like, :on => :member, :controller => :likes,
+     :action => :toggle, :likeable => "Photo"
+    resources :comments,  :only => [:create], :commentable => "Photo"#, :in_post => false do
+      #put :toggle_like, :on => :member
+    #end
   end
 
   resources :user_friendships, :only => [] do
@@ -46,10 +47,18 @@ Friends::Application.routes.draw do
   end
 
   resources :posts, :except => [:new, :index] do
-    resources :comments, :except => [:new, :index, :show], :in_post => true do
-      put :toggle_like, :on => :member
+    resources :comments, :only => [:create], :commentable => "Post" #, :in_post => true do
+      #put :toggle_like, :on => :member
+    #end
+    put :toggle_like, :on => :member, :controller => :likes,
+     :action => :toggle, :likeable => "Post"
+  end
+
+  resources :comments, :only => [:update,:edit,:destroy] do
+    member do
+      put :toggle_like, :controller => :likes,
+       :action => :toggle, :likeable => "Comment"
     end
-    put :toggle_like, :on => :member
   end
 
 

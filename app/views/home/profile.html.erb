@@ -9,4 +9,5 @@
 </table>
 <h2> Your wall: </h2>
 <%= render 'shared/post_form' %>
+<%= paginate @items %>
 <%= render :partial => "shared/item", :collection => @items %>

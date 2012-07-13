@@ -1,19 +1,17 @@
- <ul class="nav nav-tabs nav-stacked">
-      <li><%= link_to "Home", root_path  %></li>
-      <% if signed_in? %>
-        <li><% unless @notification_count.zero? %>
-        <li><%= link_to("Notifications (#{@notification_count})",notifications_path) %></li>
-        <li><% end %>
-        <li><%= link_to "Photos", user_photo_albums_path(current_user) %></li>
-        <li><%= link_to "Profile", profile_path %></li>
-        <li><%= link_to "Settings", edit_user_registration_path(current_user) %></li>
-        <li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
-        <%= raw('<li>'+get_friends_link(@invite_count)+'</li>') %>
-        <li><%= link_to "People", users_path %></li>
-        <li><%= link_to "Inbox", inbox_path %></li>
-        <li><%= link_to "Outbox", outbox_path %></li>
-      <% else %>
-        <li><%= link_to "Sign in", new_user_session_path %></li>
-        <li><%= link_to "Sign up", new_user_registration_path %></li>
-      <% end %>
-</ul>
+<li><%= link_to "Home", root_path  %></li>
+<% if signed_in? %>
+  <li><%= link_to "Profile", profile_path %></li>
+  <% unless @notification_count.zero? %>
+  <li><%= link_to("Notifications (#{@notification_count})",notifications_path) %></li>
+  <% end %>
+  <%= raw('<li>'+get_friends_link(@invite_count)+'</li>') %>
+  <li><%= link_to "Photos", user_photo_albums_path(current_user) %></li>
+  <li><%= link_to "People", users_path %></li>
+  <li><%= link_to "Inbox", inbox_path %></li>
+  <li><%= link_to "Outbox", outbox_path %></li>
+  <li><%= link_to "Settings", edit_user_registration_path(current_user) %></li>
+  <li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
+<% else %>
+  <li><%= link_to "Sign in", new_user_session_path %></li>
+  <li><%= link_to "Sign up", new_user_registration_path %></li>
+<% end %>

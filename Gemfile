@@ -11,9 +11,12 @@ gem "paperclip", "~> 3.0"
 gem 'aws-sdk', '~> 1.3.4'
 gem 'pg'
 gem 'thin'
+gem "twitter-bootstrap-rails"
+gem 'kaminari'
 
-group :development do
-	gem 'sqlite3'
+group :development,:test do
+	#gem 'sqlite3'
+	gem 'mysql2'
 end
 
 

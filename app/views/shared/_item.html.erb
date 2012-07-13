@@ -1,14 +1,37 @@
-<table>
+<!-- <table>
 	<tr>
-		<td><%= image_tag item.user.avatar.url(:thumb) %></td>
+		<td><%# image_tag item.user.avatar.url(:thumb) %></td>
 		<td>
-			<p><%= link_to item.user.fname, user_path(item.user) %></p>
-			<p><%= item.content %></p>
-			<%= image_tag item.photo.url %>
+			<p><%# link_to item.user.fname, user_path(item.user) %></p>
+			<div class="well">
+			<p><%# item.content %></p>
+			<%# image_tag item.photo.url, :alt => nil %>
+			</div>
 			<div>
-				<%= link_to("comments: "+ item.comments.size.to_s, post_path(item)) %> | 
-				<%= item.likes.size %> likes
+				<%# link_to("comments: "+ item.comments.size.to_s, post_path(item)) %> | 
+				<%# item.likes.size %> likes
 			</div>
 		</td>
 	</tr>
-</table>
+</table> -->
+
+<div class="row-fluid">
+	<div class="span1">
+		<%= image_tag item.user.avatar.url(:thumb) %>
+	</div>
+	<div class="span11">
+	 	<blockquote>
+	 		<%= link_to item do %>
+	        	<p><%= item.content %></p>
+	        	<%= image_tag item.photo.url if item.photo_file_name %>
+	        <% end %>	
+	        <%= link_to user_path(item.user) do %>
+	          <small><%= item.user.fname %></small>
+	        <% end %> 
+	    </blockquote>
+	    <div class="form-actions">
+	  		<strong><%= item.likes.count %> people liked this</strong>
+	  		<strong>comments: <%= item.comments.size %></strong>          
+		</div>
+	</div>
+</div>
