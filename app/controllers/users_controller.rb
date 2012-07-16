@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
 	before_filter :authenticate_user!
+	before_filter :do_not_talking_self, :only => [:new_message, :send_message, 
+		:create_invite, :dialog]
 
 	def index
 		@users = User.all
@@ -9,13 +11,12 @@ class UsersController < ApplicationController
 	def delete
 		user = User.find(params[:id])
 		current_user.delete_friend(user)
-		redirect_to :back
+		redirect_to user_path(user)
 	end
 
 	def create_invite
-		user = User.find(params[:id])
-		current_user.target_users << user
-		redirect_to user_path(user)
+		current_user.target_users << @user
+		redirect_to user_path(@user)
 	end
 
 	def search
@@ -30,27 +31,39 @@ class UsersController < ApplicationController
 
 	def show
 		@user = User.find(params[:id])
-		redirect_to(profile_path) if @user == current_user
 		@title = @user.full_name
-		@items = @user.wall_items
-		@post = current_user.posts.build
+		@items = @user.wall_items.page(params[:page])
+		@post = current_user.posts.new
 	end
 
 	def dialog
-		@user = User.find(params[:id])
 		@items = current_user.dialog_at(@user)
 		@title = current_user.name + ' and ' + @user.name
-		current_user.destroy_certain_notifications("Message",@user.id)
+		#current_user.destroy_certain_notifications("Message",@user.id)
+		@notification_count -= current_user.destroy_message_notifications(@user)
+		@message = current_user.outbox_messages.new
 	end
 
 	def send_message
-		@user = User.find(params[:id])
-		current_user.send_message(@user,params[:content]) 
-		redirect_to dialog_user_path(@user)
+		message = current_user.outbox_messages.build(:content => params[:content])
+		if message.save
+			current_user.send_message(@user,message) 
+			redirect_to dialog_user_path(@user)
+		else
+			render 'new_message'
+		end
 	end
 
 	def new_message
-		@user = User.find(params[:id])
 		@title = "New message to #{@user.name}"
+		@message = current_user.outbox_messages.new
+	end
+
+	private
+	def do_not_talking_self
+		@user = User.find(params[:id])
+		if current_user == @user
+			render :status => 404, :text => "invalid operation"
+		end 
 	end
 end

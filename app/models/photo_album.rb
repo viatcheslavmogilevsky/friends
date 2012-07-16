@@ -5,5 +5,4 @@ class PhotoAlbum < ActiveRecord::Base
 
   belongs_to :user
   has_many :photos, :dependent => :destroy
-  has_one :last_photo, :class_name => "Photo"
 end

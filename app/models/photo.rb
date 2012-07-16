@@ -11,16 +11,8 @@ class Photo < ActiveRecord::Base
   has_attached_file :content, :styles => {:thumb => "100x100>" },
     :storage => :s3,
     :bucket => 'mogilevsky',
-    :s3_credentials => "config/s3.yml"
+    :s3_credentials => {:access_key_id => ENV['S3_KEY'], :secret_access_key => ENV['S3_SECRET']}
   validates_attachment :content, :presence => true
-
-  # def self.like(resource_id,from)
-  #   like = Like.toggle_like(resource_id,"Photo",from)
-  #   if like
-  #     photo = Photo.find(resource_id)
-  #     like.update_notification(photo)
-  #   end
-  # end
 
   def cant_like?(some_user_id)
     !self.likes.where(:user_id => some_user_id).exists?

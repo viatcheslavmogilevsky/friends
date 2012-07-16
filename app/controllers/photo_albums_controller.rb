@@ -34,7 +34,7 @@ class PhotoAlbumsController < ApplicationController
 
 	def update
 		@photo_album = PhotoAlbum.find(params[:id])
-		if @photo_album.save?
+		if @photo_album.save
 			redirect_to user_photo_album_path(@user,@photo_album)
 		else
 			render 'form'

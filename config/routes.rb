@@ -4,7 +4,7 @@ Friends::Application.routes.draw do
 
   root :to => "home#index"
   match 'feed' => "home#feed", :as => :feed 
-  match 'profile' => "home#profile", :as => :profile
+  #match 'profile' => "home#profile", :as => :profile
   match 'inbox' => "home#inbox", :as => :inbox
   match 'outbox' => "home#outbox", :as => :outbox
   match 'friends' => "home#friends", :as => :friends
@@ -30,9 +30,7 @@ Friends::Application.routes.draw do
   resources :photos, :except => [:new,:create,:index] do
     put :toggle_like, :on => :member, :controller => :likes,
      :action => :toggle, :likeable => "Photo"
-    resources :comments,  :only => [:create], :commentable => "Photo"#, :in_post => false do
-      #put :toggle_like, :on => :member
-    #end
+    resources :comments,  :only => [:create], :commentable => "Photo"
   end
 
   resources :user_friendships, :only => [] do
@@ -46,10 +44,8 @@ Friends::Application.routes.draw do
     put 'mark_to_delete', :on => :member
   end
 
-  resources :posts, :except => [:new, :index] do
-    resources :comments, :only => [:create], :commentable => "Post" #, :in_post => true do
-      #put :toggle_like, :on => :member
-    #end
+  resources :posts, :except => [:new, :index,:create] do
+    resources :comments, :only => [:create], :commentable => "Post"
     put :toggle_like, :on => :member, :controller => :likes,
      :action => :toggle, :likeable => "Post"
   end

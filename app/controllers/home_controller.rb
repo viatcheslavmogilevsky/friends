@@ -12,15 +12,16 @@ class HomeController < ApplicationController
 	def feed
 		@title = current_user.full_name
 		@items = current_user.feed_items.page(params[:page])
-		@post = current_user.posts.build
+		@post = current_user.posts.new
+		@user = current_user
 	end
 
-	def profile
-		@title = current_user.name
-		@items = current_user.wall_items.page(params[:page])
-		@post = current_user.posts.build
-		current_user.destroy_certain_notifications("Post")
-	end
+	# def profile
+	# 	@title = current_user.name
+	# 	@items = current_user.wall_items.page(params[:page])
+	# 	@post = current_user.posts.build
+	# 	# current_user.destroy_certain_notifications("Post")
+	# end
 
 	def friends
 		@title = 'Your friends'
@@ -31,7 +32,7 @@ class HomeController < ApplicationController
 	def inbox
 		@title = "Inbox messages"
 		@items = current_user.inbox.page(params[:page])
-		current_user.destroy_certain_notifications("Message")
+		#current_user.destroy_certain_notifications("Message")
 	end
 
     def outbox

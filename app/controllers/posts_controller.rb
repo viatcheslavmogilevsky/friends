@@ -4,21 +4,19 @@ class PostsController < ApplicationController
 
 	def create
 		@post = current_user.posts.build(params[:post])
-		if @post.create_on_user(params[:user_id],current_user) 
-			if params[:user_id]
-				redirect_to user_path(params[:user_id]) 
-			else
-				redirect_to feed_path
-			end
+		@user = User.find(params[:user_id])
+		if @post.save
+			@user.wall_items << @post
+			redirect_to user_path(params[:user_id]) 
 		else
 			render 'shared/_post_form'
 		end
 	end
 
-	def toggle_like
-		Post.like(params[:id],current_user.id)
-		redirect_to post_path(params[:id])
-	end
+	# def toggle_like
+	# 	Post.like(params[:id],current_user.id)
+	# 	redirect_to post_path(params[:id])
+	# end
 
 	def edit 
 		render 'shared/_post_form'
@@ -34,7 +32,7 @@ class PostsController < ApplicationController
 
 	def destroy
 		@post.destroy
-		redirect_to root_path
+		redirect_to user_path(@post.target_user || @post.user)
 	end
 
 	def show
@@ -47,8 +45,8 @@ class PostsController < ApplicationController
 
 	def check_user
 		@post = Post.find(params[:id])
-		if @post.user != current_user
-			render :status => 404
+		if @post.user != current_user and @post.target_user != current_user
+			render :status => 404, :text => "Access denied"
 		end
 	end
 end

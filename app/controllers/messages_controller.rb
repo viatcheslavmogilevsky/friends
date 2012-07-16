@@ -3,7 +3,7 @@ class MessagesController < ApplicationController
 	before_filter :find_other_user
 
 	def show
-	
+
 	end
 
 	def mark_to_delete
@@ -20,7 +20,7 @@ class MessagesController < ApplicationController
 		elsif current_user == @message.target_user
 			@user = @message.user
 		else
-			render :status => 404
+			render :status => 404, :text => "access denied" 
 		end
 	end
 end

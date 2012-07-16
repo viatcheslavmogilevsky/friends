@@ -5,6 +5,10 @@ class Message < ActiveRecord::Base
   belongs_to :target_user, :class_name => "User"
 
   scope :skip_marked, ->(ident) {where("mark <> ? OR mark IS ?",ident,nil)}
+  validates :content, :presence => true
+  validates_each :mark, :on => :create do |record,attribute,value|
+    record.errors.add(attribute, "must be nil") unless value.nil?
+  end
 
   has_one :notification, :as => :notificable, :dependent => :destroy
 
@@ -15,11 +19,10 @@ class Message < ActiveRecord::Base
   	unless self.notification
   		if self.mark.nil?
   			self.update_attributes(:mark => user.id)
-  		else
-  			self.destroy
-  		end
+  		elsif self.mark != user.id 
+  			 self.destroy
+      end
   	else
-  		self.notification.destroy
   		self.destroy
   	end		
   end

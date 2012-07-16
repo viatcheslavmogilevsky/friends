@@ -45,6 +45,11 @@ class PhotosController < ApplicationController
 		@comment = current_user.comments.new
 	end
 
+	def destroy
+		@photo.destroy
+		redirect_to user_photo_album_path(@photo.user,@photo.photo_album)
+	end
+
 	private
 
 	def check_album

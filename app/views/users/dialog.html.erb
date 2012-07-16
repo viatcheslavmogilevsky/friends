@@ -7,7 +7,7 @@
 		<%= link_to "Delete", mark_to_delete_message_path(item), :method => :put %>
 	</div>
 <% end %>
-<%= form_tag({:controller => :users,:action => :send_message, :id => @user.id}, :method => :post) do %>
+<%= form_tag send_message_user_path(@user,@message), :method => :post do %>
 	<div>
 		<%= label_tag "Write" %>
 		<%= text_area_tag :content %>	

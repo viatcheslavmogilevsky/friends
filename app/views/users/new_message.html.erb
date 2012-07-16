@@ -1,5 +1,6 @@
 <h1> <%= @title %> </h1>
-<%= form_tag({:controller => :users,:action => :send_message, :id => @user.id}, :method => :post) do %>
+<%= form_tag send_message_user_path(@user,@message), :method => :post do %>
+	<%# render 'shared/error_messages', :object => f.object %>
 	<div>
 		<%= label_tag "Write" %>
 		<%= text_area_tag :content %>	

@@ -15,8 +15,9 @@ gem "twitter-bootstrap-rails"
 gem 'kaminari'
 
 group :development,:test do
-	#gem 'sqlite3'
 	gem 'mysql2'
+  	gem 'rspec-rails'
+  	gem 'factory_girl_rails'
 end
 
 

@@ -1,0 +1,33 @@
+<div class="btn-toolbar">
+    <% unless @user == current_user %>
+	   <div class="btn-group">
+    	   <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+    		  Actions
+    		  <span class="caret"></span>
+    	   </a>
+    	   <ul class="dropdown-menu">
+    		  <%= raw(get_links(@user)) %>
+    	   </ul>
+	   </div>
+       <div class="btn-group">
+            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                Talking
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li><%= link_to "Send message", new_message_user_path(@user) %></li>
+                <li><%= link_to "Go to dialog", dialog_user_path(@user) %></li>
+            </ul>
+       </div>
+    <% end %>
+	<div class="btn-group">
+    	<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+    		Photos
+    		<span class="caret"></span>
+    	</a>
+    	<ul class="dropdown-menu">
+    		<li><%= link_to "All photos", user_photos_path(@user) %></li>
+			<li><%= link_to "Photo albums", user_photo_albums_path(@user) %></li>
+    	</ul>
+	</div>
+</div>

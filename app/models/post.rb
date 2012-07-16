@@ -10,28 +10,12 @@ class Post < ActiveRecord::Base
   has_many :likes, :as => :likeable, :dependent => :destroy, :after_add => :notify_owner_about_like
   validates :content, :presence => true
 
+
   has_attached_file :photo,
     :storage => :s3,
     :bucket => 'mogilevsky',
-    :s3_credentials => "config/s3.yml"
+    :s3_credentials => {:access_key_id => ENV['S3_KEY'], :secret_access_key => ENV['S3_SECRET']}
   paginates_per 10  
-
-
-  def create_on_user(user1,user2)
-  	if self.save
-  		some_user = User.find(user1 || user2.id)
-  		some_user.wall_items << self
-  		if user1 and user1 != user2.id
-  			self.create_notification
-        self.user.proper_notifications.push(self.notification) 
-  			some_user.notifications.push(self.notification)
-  		end
-  		true
-  	else
-  		false
-  	end
-  end
-
 
   def cant_like?(some_user_id)
     !self.likes.where(:user_id => some_user_id).exists?
@@ -52,13 +36,5 @@ class Post < ActiveRecord::Base
       self.user.notifications << like.notification
     end 
   end
-
-  # def self.like(resource_id,from)
-  #   like = Like.toggle_like(resource_id,"Post",from)
-  #   if like
-  #     post = Post.find(resource_id)
-  #     like.update_notification(post)
-  #   end
-  # end
 
 end

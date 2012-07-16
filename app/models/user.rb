@@ -5,10 +5,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :remember_me, :name, :first_name, :nickname,
   				:description, :avatar
-  # attr_accessible :title, :body
 
   validate :name, {presence: true, length: {maximum: 30}}
   validate :first_name, {presence: true, length: {maximum: 30}}
@@ -17,7 +15,7 @@ class User < ActiveRecord::Base
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100>" },
     :storage => :s3,
     :bucket => 'mogilevsky',
-    :s3_credentials => "config/s3.yml"
+    :s3_credentials => {:access_key_id => ENV['S3_KEY'], :secret_access_key => ENV['S3_SECRET']}
 
   has_many :user_friendships, :dependent => :destroy
   has_many :friendship_notifications, :class_name => "UserFriendship", 
@@ -27,10 +25,10 @@ class User < ActiveRecord::Base
     :association_foreign_key => "other_user_id",
     :join_table => :friendships
   has_many :target_users, :through => :user_friendships,
-  	:source => :target_user  
+  	:source => :target_user
   has_many :posts, :order => "updated_at DESC"
   has_many :wall_items, :class_name => "Post", :foreign_key => "target_user_id",    
-           :order => "updated_at DESC"
+           :order => "updated_at DESC", :after_add => :notify_self_about_post
   has_many :inbox_messages, :class_name => "Message", :foreign_key => "target_user_id",
       	   :order => "updated_at DESC"
   has_many :outbox_messages, :class_name => "Message", :order => "updated_at DESC"
@@ -42,6 +40,14 @@ class User < ActiveRecord::Base
   has_many :photos
   paginates_per 10
 
+  def notify_self_about_post(post)
+    if post.user != post.target_user
+      post.create_notification
+      post.user.proper_notifications << post.notification
+      self.notifications << post.notification
+    end 
+  end
+
   def inbox
     self.inbox_messages.skip_marked(self.id)
   end         
@@ -50,9 +56,8 @@ class User < ActiveRecord::Base
     self.outbox_messages.skip_marked(self.id)
   end
 
-  def send_message(some_user,content)
+  def send_message(some_user,msg)
     transaction do
-      msg = self.outbox_messages.create(:content => content)
       some_user.inbox_messages << msg
       self.proper_notifications << msg.notification
       some_user.notifications << msg.notification
@@ -76,9 +81,9 @@ class User < ActiveRecord::Base
     var.order("updated_at DESC")
   end
 
-  def destroy_certain_notifications(notificable_type,user_id = nil)
-    self.notifications.where({:notificable_type => notificable_type,
-      :user_id => user_id}.delete_if {|key,value| value.nil? }).destroy_all
+  def destroy_message_notifications(user)
+    user.proper_notifications.where({:notificable_type => "Message",
+      :target_user_id => self.id}).destroy_all.size
   end
     
   def full_name
@@ -103,7 +108,7 @@ class User < ActiveRecord::Base
 
   def self.search(search_string)
     User.find(:all,
-      :conditions =>["(name LIKE ?) OR (first_name LIKE ?) OR (nickname LIKE ?) OR (description LIKE ?)",
+      :conditions => ["(name LIKE ?) OR (first_name LIKE ?) OR (nickname LIKE ?) OR (description LIKE ?)",
       "%#{search_string}%","%#{search_string}%","%#{search_string}%","%#{search_string}%"])
   end
 end

@@ -1,6 +1,6 @@
 <li><%= link_to "Home", root_path  %></li>
 <% if signed_in? %>
-  <li><%= link_to "Profile", profile_path %></li>
+  <li><%= link_to "Profile", user_path(current_user) %></li>
   <% unless @notification_count.zero? %>
   <li><%= link_to("Notifications (#{@notification_count})",notifications_path) %></li>
   <% end %>
