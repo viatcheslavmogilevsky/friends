@@ -1,8 +1,3 @@
-<% if @photo_album.user == current_user %>
-	<%= link_to "Add photo", new_photo_album_photo_path(@photo_album) %> |
-	<%= link_to "Edit album", edit_user_photo_album_path(@photo_album.user,@photo_album) %> |
-	<%= link_to "Delete album", [@photo_album.user,@photo_album], :method => :delete %>
-<% end %>
 <% unless @photos.blank? %>
 <ul class="thumbnails">
 	<% @photos.each do |photo| %>
@@ -15,4 +10,15 @@
 	</li>
 	<% end %>
 </ul>
+<% else %>
+	<p> This album haven't any photos yet</p>
+<% end %>
+<% if @photo_album.user == current_user %>
+	<div class="form-actions">
+		<%= link_to "Add photo", new_photo_album_photo_path(@photo_album),:class => "btn" %> 
+		<%= link_to "Edit album", edit_user_photo_album_path(@photo_album.user,@photo_album),
+			:class => "btn" %> 
+		<%= link_to "Delete album", [@photo_album.user,@photo_album], :method => :delete,
+			:class => "btn btn-danger" %>
+	</div>	
 <% end %>

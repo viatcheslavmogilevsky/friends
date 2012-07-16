@@ -1,0 +1,17 @@
+<div class="row-fluid">
+	<div class="span2">
+		<%= image_tag item.user.avatar.url(:thumb) %>
+	</div>
+	<div class="span8">
+		<%= link_to item.user.fname, user_path(item.user) %>
+		<p><strong>liked your <%= link_to item.notificable.likeable_type.downcase, 
+										item.notificable.likeable %>:</strong></p>
+			<div class="well">
+				<% if item.notificable.likeable_type == "Photo" %>
+					<%= item.notificable.likeable.content.url(:thumb) %>
+				<% else %>
+					<%= item.notificable.likeable.content %>
+				<% end %>	
+			</div>	
+	</div>
+</div>

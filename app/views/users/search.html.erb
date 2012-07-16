@@ -1,17 +1,7 @@
-<%= form_tag("/users/search", :method => "get") do %>
-  <%= label_tag(:search, "Search for:") %>
-  <%= text_field_tag(:search) %>
-  <%= submit_tag("Search") %>
-<% end %>
+<%= render "shared/search_form" %>
 <h1> Search result for "<%= @search %>": </h1>
 <% unless @users.blank? %>
-	<% @users.each do |user| %>
-	<div>
-		<%= link_to user_path(user) do %> 
-			<h2> <%= user.fname %> </h2>
-		<% end %>
-	</div>
-	<% end %>
+	<%= render @users %>
 <% else %>
  <p>
    Your search "<%= @search %>" did not match any users. 

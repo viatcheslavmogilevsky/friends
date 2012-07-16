@@ -1,0 +1,11 @@
+<div class="row-fluid">
+	<div class="span1">
+		<%= image_tag item.user.avatar.url(:thumb) %> 
+	</div>
+	<div class="span7">
+		<p><strong><%= link_to item.user.name, item.user %></strong></p>
+		<div class="well">
+			<%= item.content %>
+		</div>
+	</div>
+</div>

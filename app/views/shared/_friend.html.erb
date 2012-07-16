@@ -1,4 +1,8 @@
-<div>
-	<%= image_tag friend.avatar.url(:thumb) %><br/>
-	<%= link_to friend.full_name, user_path(friend) %>
+<div class="row-fluid">
+	<div class="span2">
+		<%= image_tag friend.avatar.url(:thumb) %>
+	</div>
+	<div class="span8">
+		<%= link_to friend.fname, user_path(friend) %>
+	</div>
 </div>

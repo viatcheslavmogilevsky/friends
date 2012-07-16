@@ -1,0 +1,27 @@
+<div class="row-fluid">
+	<div class="span2">
+		<%= image_tag item.user.avatar.url(:thumb) %>
+	</div>
+	<div class="span8">
+		<%= link_to item.user.fname, user_path(item.user) %>
+		<p><strong>added post to your wall:</strong></p>
+			<div class="well">
+				<%= item.notificable.content %>
+			</div>
+			<div class="form-actions">
+				<strong><%= item.notificable.likes.count %> people liked this</strong>
+  				<% if item.notificable.cant_like?(current_user.id) %>
+    				<%= link_to toggle_like_post_path(item.notificable), :method => :put, :class => 'btn' do %>
+      					<i class="icon-thumbs-up"></i> 
+      					Like
+    				<% end %>
+  				<% else %>
+    				<%= link_to toggle_like_post_path(item.notificable), :method => :put, :class => 'btn' do %>
+      					<i class="icon-thumbs-down"></i> 
+      					Dislike
+    				<% end %>
+  				<% end %>
+				<%= link_to "Go to post", item.notificable, :class => "btn" %>
+			</div>	
+	</div>
+</div>

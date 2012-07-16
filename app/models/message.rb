@@ -13,7 +13,7 @@ class Message < ActiveRecord::Base
   has_one :notification, :as => :notificable, :dependent => :destroy
 
   after_create :make_notification
-  paginates_per 10
+  paginates_per 5
 
   def mark_to_delete(user)
   	unless self.notification

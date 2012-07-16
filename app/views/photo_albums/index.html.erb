@@ -1,6 +1,9 @@
-<% if @user == current_user %>
-	<%= link_to "New album", new_user_photo_album_path(@user) %>
-<% end %>
+<div class="form-actions">
+	<% if @user == current_user %>
+		<%= link_to "New album", new_user_photo_album_path(@user), :class => "btn btn-primary" %>
+	<% end %>
+	<%= link_to "All photos", user_photos_path(@user), :class => "btn" %>
+</div>
 <% unless @photo_albums.blank? %>
 	<ul class="thumbnails">
 	<% @photo_albums.each do |photo_album| %>
@@ -16,4 +19,6 @@
 		</li>
 	<% end %>
 	</ul>
+<% else %>
+	<p> No albums here</p>	
 <% end %>

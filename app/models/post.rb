@@ -15,7 +15,7 @@ class Post < ActiveRecord::Base
     :storage => :s3,
     :bucket => 'mogilevsky',
     :s3_credentials => {:access_key_id => ENV['S3_KEY'], :secret_access_key => ENV['S3_SECRET']}
-  paginates_per 10  
+  paginates_per 5  
 
   def cant_like?(some_user_id)
     !self.likes.where(:user_id => some_user_id).exists?

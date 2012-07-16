@@ -1,0 +1,11 @@
+<div class="row-fluid">
+  <div class="span12">
+    <%= render :partial => 'shared/comment_form' %>
+    <% unless @comments.blank? %>
+      <h3>Comments:</h3>
+      <%= render @comments %>
+    <% else %>
+      <p> No comments here </p> 
+    <% end %>
+  </div>
+</div>    

@@ -1,25 +1,8 @@
-<!-- <table>
-	<tr>
-		<td><%# image_tag item.user.avatar.url(:thumb) %></td>
-		<td>
-			<p><%# link_to item.user.fname, user_path(item.user) %></p>
-			<div class="well">
-			<p><%# item.content %></p>
-			<%# image_tag item.photo.url, :alt => nil %>
-			</div>
-			<div>
-				<%# link_to("comments: "+ item.comments.size.to_s, post_path(item)) %> | 
-				<%# item.likes.size %> likes
-			</div>
-		</td>
-	</tr>
-</table> -->
-
 <div class="row-fluid">
 	<div class="span1">
 		<%= image_tag item.user.avatar.url(:thumb) %>
 	</div>
-	<div class="span11">
+	<div class="span9">
 	 	<blockquote>
 	 		<%= link_to item do %>
 	        	<p><%= item.content %></p>
@@ -29,8 +12,8 @@
 	          <small><%= item.user.fname %></small>
 	        <% end %> 
 	    </blockquote>
-	    <div class="form-actions">
-	  		<strong><%= item.likes.count %> people liked this</strong>
+	    <div class="well">
+	  		<strong><%= item.likes.count %> people liked this</strong> | 
 	  		<strong>comments: <%= item.comments.size %></strong>          
 		</div>
 	</div>

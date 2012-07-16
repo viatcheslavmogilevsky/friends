@@ -1,0 +1,8 @@
+<div class="row-fluid">
+	<div class="span2">
+		<%= image_tag user.avatar.url(:thumb) %>
+	</div>
+	<div class="span8">
+		<%= link_to user.fname, user_path(user) %>
+	</div>
+</div>

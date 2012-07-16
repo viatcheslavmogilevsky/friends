@@ -1,18 +1,10 @@
 <h1> <%= @title  %> </h1>
-<% @items.each do |item| %>
-		<div class="<%= item.user == current_user ? 'my_msg' : 'other_msg' %>">
-		<%= link_to item.user.fname, user_path(item.user) %>
-		<p> <%= item.content %> </p>
-		<%= link_to "Show separately", message_path(item) %> | 
-		<%= link_to "Delete", mark_to_delete_message_path(item), :method => :put %>
+<%= render "shared/message_form" %>
+<div class="row-fluid">
+	<div class="span8"> 
+		<%= paginate @items %>
+		<% @items.each do |item| %>
+			<%= render :partial => "shared/message_item", :locals => {:item => item} %>
+		<% end %>
 	</div>
-<% end %>
-<%= form_tag send_message_user_path(@user,@message), :method => :post do %>
-	<div>
-		<%= label_tag "Write" %>
-		<%= text_area_tag :content %>	
-	</div>
-	<div class="actions">
-      	<%= submit_tag "Send" %>
-    </div>
-<% end %>	
+</div> 

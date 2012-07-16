@@ -1,0 +1,6 @@
+<tr>
+	<td> <%= link_to message.user.fname, user_path(message.user) %> </td>
+	<td> <%= link_to message.target_user.fname, user_path(message.user) %> </td>
+	<td> <%= link_to message.content[0..9]+'...',message_path(message) %></td>
+	<td> <%= message.created_at.to_date %></td>
+</tr>

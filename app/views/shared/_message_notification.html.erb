@@ -1,0 +1,15 @@
+<div class="row-fluid">
+	<div class="span2">
+		<%= image_tag item.user.avatar.url(:thumb) %>
+	</div>
+	<div class="span8">
+		<%= link_to item.user.fname, user_path(item.user) %>
+		<p><strong>send you message:</strong></p>
+			<div class="well">
+				<%= item.notificable.content %>
+			</div>
+			<div class="form-actions">
+				<%= link_to "Go to dialog", dialog_user_path(item.user), :class => "btn" %>
+			</div>	
+	</div>
+</div>

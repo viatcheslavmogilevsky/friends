@@ -1,17 +1,9 @@
-<p> Sender: <%= @message.user.fname  %> </p>
-<p> Receiver: <%= @message.target_user.fname  %> </p>
-<p>
+<p> <strong>Sender:</strong> <%= @message.user.fname  %> </p>
+<p> <strong>Receiver:</strong> <%= @message.target_user.fname  %> </p>
+<div class="well">
 	<%= @message.content %>
-</p>
-<p>
-	<%= link_to "Delete", mark_to_delete_message_path(@message), :method => :put %>
-</p>
-<%= form_tag({:controller => :users,:action => :send_message, :id => @user.id}, :method => :post) do %>
-	<div>
-		<%= label_tag "Write" %>
-		<%= text_area_tag :content %>	
-	</div>
-	<div class="actions">
-      	<%= submit_tag "Send" %>
-    </div>
-<% end %>	
+</div>
+<div class="actions">
+	<%= link_to "Delete", mark_to_delete_message_path(@message), :method => :put, :class => "btn" %>
+</div>
+<%= render "shared/message_form" %>	

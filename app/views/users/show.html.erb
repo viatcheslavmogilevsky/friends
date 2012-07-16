@@ -1,25 +1,27 @@
 <div class="row-fluid">
     <div class="span12">
-        <div class="span4">
+        <div class="span2">
             <%= image_tag @user.avatar.url %>
             <%= render 'shared/button_toolbar' %>
         </div>
-        <div class="span8">
+        <div class="span10">
             <h3> <%= @user.full_name %> </h3>
             <p>
                 about me: <%= @user.description %>
             </p>
+            <div class="row-fluid">
+                <div class="span10">
+                    <%= render 'shared/post_form' %>
+                    <%= paginate @items %>
+                    <% unless @items.blank? %>
+                        <%= render :partial => "shared/item", :collection => @items %>
+                    <% else %>
+                        <p><%= @user.name %> haven't yet any posts </p>
+                    <% end %>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-<%= render 'shared/post_form' %>
-<% unless @items.blank? %>
-    <%= paginate @items %>
-	<div class="row-fluid">
-		<div class="span12">
-			<%= render :partial => "shared/item", :collection => @items %>
-		</div>
-	</div>
-<% else %>
-	<p><%= @user.name %> haven't yet any posts </p>
-<% end %>			
+
+			

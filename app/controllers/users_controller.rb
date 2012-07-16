@@ -37,9 +37,8 @@ class UsersController < ApplicationController
 	end
 
 	def dialog
-		@items = current_user.dialog_at(@user)
+		@items = current_user.dialog_at(@user).page(params[:page])
 		@title = current_user.name + ' and ' + @user.name
-		#current_user.destroy_certain_notifications("Message",@user.id)
 		@notification_count -= current_user.destroy_message_notifications(@user)
 		@message = current_user.outbox_messages.new
 	end

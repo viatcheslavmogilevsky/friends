@@ -1,9 +1,15 @@
-<%= form_for [@photo_album,@photo] do |f| %>
-  	<div>
-  	 <%= f.file_field :content %>
+<%= form_for [@photo_album,@photo], 
+	:html => {:class => "form-horizontal"} do |f| %>
+  	<div class="control-group">
+  		<div class="controls">
+  			<%= f.file_field :content, :class => "file_field" %>
+  		</div>
 	</div>
-	<div><%= f.label "Photo description" %><br />
-  	<%= f.text_area :description %>
+	<div class="control-group">
+		<%= f.label :description, :class => "control-label" %><br />
+		<div class="controls">
+  			<%= f.text_area :description %>
+  		</div>
 	</div>
-   <div><%= f.submit "Commit" %></div>
+   <div><%= f.submit "Submit",:class => "btn" %></div>
 <% end %>
