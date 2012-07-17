@@ -13,6 +13,7 @@ gem 'pg'
 gem 'thin'
 gem "twitter-bootstrap-rails"
 gem 'kaminari'
+gem "ffaker"
 
 group :development,:test do
 	gem 'mysql2'

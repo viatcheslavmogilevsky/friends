@@ -7,41 +7,55 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 
+require "ffaker"
+
+#creating users
+
+entries = Dir.glob("./public/images/*").entries
+
+50.times do |n|
+	name = Faker::Name.first_name
+	first_name = Faker::Name.last_name
+	case rand(10)
+	when 0..3
+		nickname = Faker::HipsterIpsum.word 
+	else
+		nickname = nil
+	end
+	description = Faker::Lorem.sentence(6)
+	password = "123456"
+	password_confirmation = "123456"
+	email = "example_#{n}@mail.com"
+	case rand(10)
+	when 4..9
+		avatar = File.open(entries.sample)
+	else
+		avatar = nil
+	end
+	user = User.new(:name => name, :first_name => first_name,
+		:nickname => nickname, :description => description,
+		:password => password, :password_confirmation => password_confirmation, :email => email)
+	user.avatar = avatar
+	user.save!
+end
+
+30.times do |i|
+	user = User.find(i+1)
+	friends = User.limit(5).offset(i+1)
+	friends.each do |friend|
+		user.target_users << friend
+		friend.friendship_notifications.first.accept
+	end
+end
+
+User.all(:limit => 25).each do |user|
+	10.times do
+		post = user.posts.create(:content => Faker::Lorem.paragraph)
+		user.wall_items << post
+	end
+end
 
 
-user1 = User.create({:name => 'Josh', 
-	:first_name => 'Ford', 
-	:description => 'I am bad boy',
-	:nickname => 'Pirate',
-	:password => '123456',
-	:password_confirmation => '123456',
-	:email => 'josh@ford.com'})
 
-user2 = User.create({:name => 'Helene', 
-	:first_name => 'Smith', 
-	:description => 'I am princesse',
-	:nickname => 'Shine',
-	:password => '123456',
-	:password_confirmation => '123456',
-	:email => 'helene@smith.com'})	
 
-user1.target_users << user2
-user2.friendship_notifications(true).first.accept
 
-p11 = user1.posts.create({:content => "josh text1 for self"})
-user1.wall_items << p11
-
-p21 = user2.posts.create({:content => "helene text1 for self"})
-user2.wall_items << p21
-
-p12 = user1.posts.create({:content => "josh text2 for self"})
-user1.wall_items << p12
-
-p22 = user2.posts.create({:content => "helene text2 for self"})
-user2.wall_items << p22
-
-p13 = user1.posts.create({:content => "josh text4 for self"})
-user1.wall_items << p13
-
-p14 = user1.posts.create({:content => "josh text4 for self"})
-user1.wall_items << p14

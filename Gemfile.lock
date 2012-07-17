@@ -61,6 +61,7 @@ GEM
     factory_girl_rails (3.5.0)
       factory_girl (~> 3.5.0)
       railties (>= 3.0.0)
+    ffaker (1.15.0)
     hike (1.2.1)
     httparty (0.8.3)
       multi_json (~> 1.0)
@@ -178,6 +179,7 @@ DEPENDENCIES
   coffee-rails (~> 3.2.1)
   devise
   factory_girl_rails
+  ffaker
   jquery-rails
   kaminari
   mysql2
