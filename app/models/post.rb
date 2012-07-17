@@ -1,4 +1,6 @@
 class Post < ActiveRecord::Base
+  include Likeable
+  include Commentable
   attr_accessible :content, :photo
 
   has_many :comments, :as => :commentable, :after_add => :notify_owner_about_comment
@@ -16,25 +18,5 @@ class Post < ActiveRecord::Base
     :bucket => 'mogilevsky',
     :s3_credentials => {:access_key_id => ENV['S3_KEY'], :secret_access_key => ENV['S3_SECRET']}
   paginates_per 5  
-
-  def cant_like?(some_user_id)
-    !self.likes.where(:user_id => some_user_id).exists?
-  end
-
-  def notify_owner_about_comment(comment)
-    if self.user != comment.user
-      comment.create_notification
-      comment.user.proper_notifications << comment.notification
-      self.user.notifications << comment.notification
-    end
-  end
-
-  def notify_owner_about_like(like)
-    if self.user != like.user
-      like.create_notification
-      like.user.proper_notifications << like.notification
-      self.user.notifications << like.notification
-    end 
-  end
 
 end
