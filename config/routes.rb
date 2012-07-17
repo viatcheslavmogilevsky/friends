@@ -15,12 +15,13 @@ Friends::Application.routes.draw do
       delete 'delete'
       post 'create_invite'
       get 'dialog'
-      post 'send_message'
-      get 'new_message'
+      # post 'send_message'
+      # get 'new_message'
     end
     resources :photo_albums
     resources :posts, :only => [:create]
     resources :photos, :only => [:index]
+    resources :messages, :only => [:new,:create]
   end
 
   resources :photo_albums, :only => [] do

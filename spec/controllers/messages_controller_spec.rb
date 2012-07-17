@@ -60,4 +60,38 @@ describe MessagesController do
 
 	end
 
+	describe "'POST' create" do
+		it "should redirect to dialog at user2 for user1" do
+			sign_in(@user1)
+			post :create, :user_id => @user2.id, 
+				:message => FactoryGirl.attributes_for(:message)
+			response.should redirect_to(dialog_user_path(@user2))
+		end
+		it "should render 404" do
+			sign_in(@user1)
+			post :create, :user_id => @user1.id, 
+				:message => FactoryGirl.attributes_for(:message)
+			response.status.should be_equal(404)
+		end
+		it "should render form" do
+			sign_in(@user1)
+			post :create, :user_id => @user2.id, 
+				:message => {:content => ""}
+			response.should be_success
+		end		
+	end
+
+	describe "'GET' new" do
+		it "should be success" do
+			sign_in(@user1)
+			get :new, :user_id => @user2.id
+			response.should be_success
+		end
+		it "should render 404" do
+			sign_in(@user1)
+			get :new, :user_id => @user1.id
+			response.status.should be_equal(404)
+		end
+	end
+
 end

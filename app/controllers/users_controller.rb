@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 	before_filter :authenticate_user!
-	before_filter :do_not_talking_self, :only => [:new_message, :send_message, 
-		:create_invite, :dialog]
+	before_filter :do_not_talking_self, :only => [:create_invite, :dialog]
+		# :new_message, :send_message,
 
 	def index
 		@users = User.all
@@ -43,26 +43,26 @@ class UsersController < ApplicationController
 		@message = current_user.outbox_messages.new
 	end
 
-	def send_message
-		message = current_user.outbox_messages.build(:content => params[:content])
-		if message.save
-			current_user.send_message(@user,message) 
-			redirect_to dialog_user_path(@user)
-		else
-			render 'new_message'
-		end
-	end
+	# def send_message
+	# 	message = current_user.outbox_messages.build(:content => params[:content])
+	# 	if message.save
+	# 		current_user.send_message(@user,message) 
+	# 		redirect_to dialog_user_path(@user)
+	# 	else
+	# 		render 'new_message'
+	# 	end
+	# end
 
-	def new_message
-		@title = "New message to #{@user.name}"
-		@message = current_user.outbox_messages.new
-	end
+	# def new_message
+	# 	@title = "New message to #{@user.name}"
+	# 	@message = current_user.outbox_messages.new
+	# end
 
-	private
-	def do_not_talking_self
-		@user = User.find(params[:id])
-		if current_user == @user
-			render :status => 404, :text => "invalid operation"
-		end 
-	end
+	# private
+	# def do_not_talking_self
+	# 	@user = User.find(params[:id])
+	# 	if current_user == @user
+	# 		render :status => 404, :text => "invalid operation"
+	# 	end 
+	# end
 end

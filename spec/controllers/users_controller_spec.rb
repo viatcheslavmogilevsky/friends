@@ -95,43 +95,4 @@ describe UsersController do
 		end
 	end
 
-	describe "'POST' send_message" do
-		before(:each) do
-			@user2 = FactoryGirl.create(:user, :email => FactoryGirl.generate(:email))
-		end
-		it "should redirect to dialog at user2 for user1" do
-			sign_in(@user1)
-			post :send_message, :id => @user2.id, :content => "message"
-			response.should redirect_to(dialog_user_path(@user2))
-		end
-		it "should render 404" do
-			sign_in(@user1)
-			post :send_message, :id => @user1.id, :content => "message"
-			response.status.should be_equal(404)
-		end
-		it "should render form" do
-			sign_in(@user1)
-			post :send_message, :id => @user2.id, :content => ""
-			response.should be_success
-		end		
-	end
-
-	describe "'GET' new_message" do
-		before(:each) do
-			@user2 = FactoryGirl.create(:user, :email => FactoryGirl.generate(:email))
-		end
-		it "should be success" do
-			sign_in(@user1)
-			get :new_message, :id => @user2.id
-			response.should be_success
-		end
-		it "should render 404" do
-			sign_in(@user1)
-			get :new_message, :id => @user1.id
-			response.status.should be_equal(404)
-		end
-	end
-
-
-
 end
